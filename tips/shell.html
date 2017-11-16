@@ -20,8 +20,15 @@
             suffer from the bug of mishandling newlines in pathnames, which you
             can fix if you follow the example under -0.
 
-</pre>
+                find . -mtime +7 -print0 | perl -nl0e unlink
 
+                find . -name '*.orig' -print0 | perl -nl0e unlink
+
+
+</pre>
+<a href="https://perldoc.perl.org/perlrun.html"> https://perldoc.perl.org/perlrun.html </a>
+
+<p /> See also: man find  <br />
 
 
 </body>
