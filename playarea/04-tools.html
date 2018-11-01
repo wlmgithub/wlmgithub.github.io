@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>Part 4: Tools</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+  <link rel="stylesheet" href="overrides.css"/>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'reveal.js/css/print/pdf.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Part 4: Tools</h1>
+    <h3 class="date"></h3>
+</section>
+
+<section id="tools-for-best-practices" class="slide level1">
+<h1>Tools for best practices</h1>
+<ul>
+<li>Continuous integration:
+<ul>
+<li>syntax check</li>
+<li><code>ansible-lint</code></li>
+</ul></li>
+<li>Code review
+<ul>
+<li><code>ansible-review</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="syntax-check" class="slide level1">
+<h1>Syntax Check</h1>
+<p>Ansible can check the syntax of a playbook using <code>--syntax-check</code> argument.</p>
+<pre><code>$ ansible-playbook --syntax-check playbooks/simple/broken-syntax.yml
+ERROR! Syntax Error while loading YAML.
+
+
+The error appears to have been in &#39;/home/vagrant/playbooks/simple/broken-syntax.yml&#39;: line 5, column 22, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  - name: this task will fail syntax check
+    debug: msg=&quot;hello: world&quot;
+                     ^ here</code></pre>
+</section>
+<section id="ansible-lint" class="slide level1">
+<h1>ansible-lint</h1>
+<p><code>ansible-lint</code> was developed to find various style and usage issues with playbooks and roles, and suggest improvements.</p>
+<p>There are several categories of rules:</p>
+<ul>
+<li>Using command/shell module instead of Ansible modules</li>
+<li>Deprecated syntax that is being removed by Ansible</li>
+<li>Incorrect formatting</li>
+</ul>
+</section>
+<section id="ansible-lint-1" class="slide level1">
+<h1>ansible-lint</h1>
+<p>Every rule is treated as an error — there is no way to mark rules as warnings. You can choose to run specific rules or to exclude specific rules</p>
+</section>
+<section id="code-reviews" class="slide level1">
+<h1>Code Reviews</h1>
+<p>Code reviews are essential to maintaining codebase quality. We use code reviews to check for standards compliance and best practices, and also to ensure that the change is the right thing to do for future maintenance.</p>
+<p>Reviews should be objective - there should be a documented reason for comments made in a review.</p>
+</section>
+<section id="code-reviews-1" class="slide level1">
+<h1>Code Reviews</h1>
+<p>Code reviews can lead to less code in the codebase. This can be a good thing. By spotting common patterns, functionality that is in a common role can be removed from an application role (roles do not need to install apache themselves when they can rely on the apache role, for example).</p>
+<p>Conversely, code that is specific to an application should be kept away from the more general roles.</p>
+</section>
+<section id="standards-and-best-practices" class="slide level1">
+<h1>Standards and Best Practices</h1>
+<ul>
+<li>We keep our standards, best practices, guide to code reviews etc. in version control</li>
+<li>Our standards documentation goes through a similar review process to our code. This is so that standards are agreed, and not imposed.</li>
+<li>Standards have a version number and a changelog, so that it's obvious what standards have been added, improved or even removed over time.</li>
+</ul>
+</section>
+<section id="ansible-review" class="slide level1">
+<h1>ansible-review</h1>
+<p><code>ansible-review</code> is designed to apply an automated code review process to work with an organisation's standards.</p>
+<p>As you add new standards to your style guide, you can say what version of standards a playbook or role is designed to meet. This allows older code to not fail against newer standards.</p>
+</section>
+<section id="running-a-review" class="slide level1">
+<h1>Running a review</h1>
+<p>After following the instructions on the <a href="https://github.com/willthames/ansible-review">ansible-review github repo</a> you can run a review tool on just the changes made against master</p>
+<p>This can be run in any ansible repo, against roles or playbooks. To run against all files in a repo (e.g. for a new role), just use</p>
+<pre><code>git ls-files | xargs ansible-review</code></pre>
+<p>or</p>
+<pre><code>git diff master | ansible-review</code></pre>
+</section>
+<section id="end-of-the-workshop" class="slide level1">
+<h1>End of the Workshop!</h1>
+<p>Further resources:</p>
+<ul>
+<li><a href="http://docs.ansible.com/ansible/">Ansible Docs</a></li>
+<li><a href="https://github.com/ansible/ansible">Ansible source</a></li>
+<li><a href="https://groups.google.com/forum/!ansible-project">Ansible Mailing list</a></li>
+<li><a href="http://galaxy.ansible.com">Ansible Galaxy</a></li>
+</ul>
+</section>
+<section id="thank-you" class="slide level1">
+<h1>Thank you!</h1>
+<p>Feedback welcomed (positive and negative)</p>
+<ul>
+<li>Twitter: <span class="citation" data-cites="willthames">@willthames</span></li>
+<li>Email: will@thames.id.au</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,         // Display controls in the bottom right corner
+        progress: true,         // Display a presentation progress bar
+        history: true,          // Push each slide change to the browser history
+        center: true,                       // Vertical centering of slides
+        maxScale: 1.5,                  // Bounds for smallest/largest possible content scale
+        slideNumber: false,                // Display the page number of the current slide
+        theme: 'white', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+    </body>
+</html>
